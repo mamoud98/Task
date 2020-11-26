@@ -76,7 +76,12 @@ exports.signin = (req, res, next) => {
           // }
           const token = accessToken(payload);
 
+          // user[0].Token.push(token);
+         
+
           req.session.token = token;
+
+
 
           res.status(200).json({
             data: user,

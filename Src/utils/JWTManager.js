@@ -10,7 +10,7 @@ function accessToken(payload) {
   var accesssToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, {
     expiresIn: 3600,
   });
-
+ 
   return accesssToken;
 }
 
