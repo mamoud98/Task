@@ -1,9 +1,11 @@
 const { check, validationResult } = require("express-validator");
-const User = require("../../models/User");
 
-const err = [
+
+const signupErr = [
   check("email").trim().not().isEmpty().withMessage("please Enter your Email"),
   check("email").trim().isEmail().withMessage("please Enter Valid Email"),
+  check("name").trim().not().isEmpty().withMessage("please Enter your name"),
+  check("age").trim().not().isEmpty().withMessage("please Enter your age"),
   check("password")
     .trim()
     .not()
@@ -15,15 +17,7 @@ const err = [
     .withMessage("please Enter your Password more than 5 cher")
     .matches(/\d/)
     .withMessage("must contain a number"),
-  // check("email").custom((value, { req }) => {
-  //   User.find({ email: value }, (err, user) => {
-  //     if (user) {
-  //       throw new Error("the email is exist");
-  //     } else {
-  //       return true;
-  //     }
-  //   });
-  // }),
+
   check("password-confirm")
     .trim()
     .custom((value, { req }) => {
@@ -35,7 +29,5 @@ const err = [
 ];
 
 module.exports = {
-  err,
-  // fin,
-  // em,
+  signupErr,
 };
