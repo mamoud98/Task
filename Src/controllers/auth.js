@@ -1,7 +1,6 @@
 const User = require("../models/User");
-const { register, authenticate } = require("../utils/passwordManager");
+const { hash, comparePassword } = require("../utils/passwordManager");
 const { accessToken } = require("../utils/JWTManager");
-const { validationResult } = require("express-validator");
 const { main } = require("../utils/sendingEmail");
 const { errors } = require("../utils/errors");
 
@@ -15,17 +14,11 @@ exports.signup = (req, res, next) => {
           email: req.body.email,
         };
 
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-          console.log(errors);
-          return res.status(400).json({ errors: errors.array() });
-        }
-
         const user = new User({
           name: req.body.name,
           email: req.body.email,
           Token: accessToken(payload),
-          password: register(req.body.password),
+          password: hash(req.body.password),
           avatar: req.file.buffer,
         });
 
@@ -63,25 +56,18 @@ exports.signin = (req, res, next) => {
   User.find({ email: req.body.email })
     .then((user) => {
       if (user.length >= 1) {
-        if (authenticate(password, user[0].password)) {
+        if (comparePassword(password, user[0].password)) {
           const payload = {
             id: req.body._id,
             name: req.body.name,
             email: req.body.email,
           };
-          // const errors = validationResult(req);
-          // if (!errors.isEmpty()) {
-          //   console.log(errors);
-          //   return res.status(400).json({ errors: errors.array() });
-          // }
+
           const token = accessToken(payload);
 
           // user[0].Token.push(token);
-         
 
           req.session.token = token;
-
-
 
           res.status(200).json({
             data: user,
@@ -94,7 +80,10 @@ exports.signin = (req, res, next) => {
         }
       } else {
         res.status(404).json({
-          errors: errors(req.body.email, "wrong email"),
+          errors: errors(
+            req.body.email,
+            " this email not exist ,pleas make Register"
+          ),
         });
       }
     })

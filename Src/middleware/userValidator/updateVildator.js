@@ -1,6 +1,7 @@
 const { check, validationResult } = require("express-validator");
+const User = require("../../models/User");
 
-const updateErr = [
+const userValidation = [
   check("email").trim().not().isEmpty().withMessage("please Enter your Email"),
   check("email").trim().isEmail().withMessage("please Enter Valid Email"),
   check("password")
@@ -14,9 +15,10 @@ const updateErr = [
     .withMessage("please Enter your Password more than 5 cher")
     .matches(/\d/)
     .withMessage("must contain a number"),
-  check("avatar").not().isEmpty().withMessage("please upload img"),
+  
 ];
 
+
 module.exports = {
-  updateErr,
+  userValidation,
 };

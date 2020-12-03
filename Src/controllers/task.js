@@ -1,4 +1,4 @@
-const Task = require("../models/task");
+const Task = require("../models/Task");
 
 exports.getTasks = (req, res, next) => {
   Task.find({ owner: req.params.userId })

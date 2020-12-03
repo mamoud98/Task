@@ -1,7 +1,6 @@
-const { check, validationResult } = require("express-validator");
+const { check } = require("express-validator");
 
-
-const signingErr = [
+const singingValidation = [
   check("email").trim().not().isEmpty().withMessage("please Enter your Email"),
   check("email").trim().isEmail().withMessage("please Enter Valid Email"),
   check("password")
@@ -11,6 +10,9 @@ const signingErr = [
     .withMessage("please Enter your Password"),
 ];
 
+
+
 module.exports = {
-    signingErr,
+  singingValidation,
+  
 };

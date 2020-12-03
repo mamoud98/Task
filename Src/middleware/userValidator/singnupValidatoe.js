@@ -1,7 +1,6 @@
 const { check, validationResult } = require("express-validator");
 
-
-const signupErr = [
+const singeUpValidation = [
   check("email").trim().not().isEmpty().withMessage("please Enter your Email"),
   check("email").trim().isEmail().withMessage("please Enter Valid Email"),
   check("name").trim().not().isEmpty().withMessage("please Enter your name"),
@@ -29,5 +28,5 @@ const signupErr = [
 ];
 
 module.exports = {
-  signupErr,
+  singeUpValidation,
 };

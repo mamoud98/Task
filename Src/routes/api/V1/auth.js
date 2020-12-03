@@ -1,15 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
-const upload = multer();
-const { signupErr } = require("../../../middleware/userValidator/singnupValidatoe");
-// const { signingErr } = require("../../../middleware/userValidator/singninVaildation");
+
+const {
+  singeUpValidation,
+} = require("../../../middleware/userValidator/singnupValidatoe");
 
 const { signup, signin, signout } = require("../../../controllers/auth");
+const { img } = require("../../../middleware/uploadImg/avatar");
+const {
+  singingValidation,
+} = require("../../../middleware/userValidator/singninVaildation");
+const {
+  validateVerify,
+} = require("../../../middleware/userValidator/validateVerify");
 
-router.post("/signup", upload.single("avatar"), signupErr, signup);
-// router.post("/signin", signingErr, signin);
-router.post("/signin", signin);
+router.post("/signup", img, singeUpValidation, validateVerify, signup);
+
+router.post("/signin", singingValidation, validateVerify, signin);
+
 router.get("/signout", signout);
 
 module.exports = router;

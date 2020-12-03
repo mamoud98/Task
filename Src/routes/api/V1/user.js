@@ -1,18 +1,27 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
-const upload = multer();
 
 const { update } = require("../../../controllers/user");
-const { updateErr } = require("../../../middleware/updateVildator");
+const {
+  userValidation,
+} = require("../../../middleware/userValidator/updateVildator");
 
 const { verify } = require("../../../utils/JWTManager");
+const {
+  img,
+  avatarValidation,
+} = require("../../../middleware/uploadImg/avatar");
+const {
+  validateVerify,
+} = require("../../../middleware/userValidator/validateVerify");
 
 router.put(
   "/update/:userId",
   verify,
-  upload.single("avatar"),
-  updateErr,
+  img,
+  avatarValidation,
+  userValidation,
+  validateVerify,
   update
 );
 
